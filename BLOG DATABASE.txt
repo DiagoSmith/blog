@@ -1,0 +1,43 @@
+****** BLOG PROJECT *****
+
+**** PLAN ****
+
+1. Promises - Promises are an alternative to using callbacks. A simpler, arguably more intuitive way of writing asynchronous JavaScript. 
+
+promise.all returns an operation if all promises have been fulfilled, if one has failed then the promise.all is rejected. 
+
+2. Understand Sequelize -
+Sequelize is an ORM for Databases - 'Object Relational Mapping'. Allows us to make PostGreSQL requests in ordinary javascript. 
+
+3. Defining Flexible Routes - (look at page 192 of cookbook /206 on pdf/)
+
+4. Understanding Sessions - 
+
+
+
+
+
+
+*** BLOG DATABASE SCHEMA ***
+
+Table User
+* ID ----------- PK
+* USERNAME
+* PASSWORD
+* EMAIL
+
+Table Post
+* ID ---------- PK
+* TITLE
+* BODY
+* User table, ID ------------- FK
+
+Table Comment
+* ID ------------- PK
+* BODY
+* Post table, ID ------ FK
+* User table, ID ------ FK
+
+
+ROUTES 
+
