@@ -4,14 +4,67 @@
 
 1. Promises - Promises are an alternative to using callbacks. A simpler, arguably more intuitive way of writing asynchronous JavaScript. 
 
-promise.all returns an operation if all promises have been fulfilled, if one has failed then the promise.all is rejected. 
+promise.all returns an operation once all promise operations have been fulfilled, if one has failed then the promise.all is rejected. 
+
+promise.denodeify takes a typical asynchronous callback based function and changes it into a promise version of the same function. 
+
+http://www.sitepoint.com/demystifying-javascript-closures-callbacks-iifes/ - for recap on call-backs. 
+
 
 2. Understand Sequelize -
 Sequelize is an ORM for Databases - 'Object Relational Mapping'. Allows us to make PostGreSQL requests in ordinary javascript. 
 
+Models are used to define the structures of the tables, their columns, foreign keys and so forth. 
+
+IMPORTANT THINGS:
+
+Model.create() - works the same as writing 'insert into'. Syntax is as follows;
+
+E.G 
+User.create({
+	username: 'req.body.username',
+	password:'req.body.password',
+	email: 'req.body.email'
+})
+
+Model.findAll() - works the same as "SELECT all rows FROM table".
+
+E.G
+User.findAll().then(function(rows){ 	     //1.
+	for(var i = 0; i < rows.length; i++) {    //2. 
+		var columnData = rows[i].dataValues;  //3. 
+		var email = columnData.email;
+		var username =columnData.username;
+	}
+};
+
+
+//1. "rows" refers to an array of all instances within the user table. This value is passed from the initial "findAll" function similarly to a callback. 
+//2. Looping through the rows table.
+//3. New variable set, which is an array of all the rows and their datavalues which will reflect the columns of the table. 
+
+Model.findOne
+
+
+
+
+
+
+
+
+
+
 3. Defining Flexible Routes - (look at page 192 of cookbook /206 on pdf/)
 
 4. Understanding Sessions - 
+
+5. Database Shit - 
+	Primary keys are made up of two constraints - unique & non-null. 
+	Serial key is autoincremented integer (1,2,3,4 etc).
+
+	CASCADING deletion means that when a foreign key is deleted, the interconnected rows will also delete. 
+
+	Chaining Queries - 
 
 
 
@@ -30,6 +83,7 @@ Table Post
 * ID ---------- PK
 * TITLE
 * BODY
+
 * User table, ID ------------- FK
 
 Table Comment
@@ -40,4 +94,29 @@ Table Comment
 
 
 ROUTES 
+
+Pages should be served relationally to each user logged in.
+
+GET
+
+/register - Gets the page with the user registration form.
+
+ /Posts/(username) - Views the users posts. (the user who is actively logged in);
+
+ /Posts - Views all users posts (the user who is logged in)
+
+ /posts/username/postname - Views a specific post of a user - not necessarily logged in.
+
+/logout 
+
+
+ POST
+
+ /login - sends the user-log in form and authenticates credentials.
+
+ /register - creates a user and submits form.
+
+
+
+
 
