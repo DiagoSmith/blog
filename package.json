@@ -1,0 +1,28 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "blog.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiagoSmith/blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiagoSmith/blog/issues"
+  },
+  "homepage": "https://github.com/DiagoSmith/blog#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "client-sessions": "^0.7.0",
+    "express": "^4.13.4",
+    "path": "^0.12.7",
+    "pg": "^4.4.6",
+    "promise": "^7.1.1",
+    "sequelize": "^3.19.3"
+  }
+}
