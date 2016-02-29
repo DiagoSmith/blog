@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var promise = require('promise');
 var Sequelize = require('sequelize');
 
+
 app.set('views', path.join(__dirname, 'views')); //set the views folder where the jade file resides
 app.set('view engine', 'jade'); //sets the jade rendering
 
@@ -49,7 +50,53 @@ var Comment = sequelize.define('comment', {
 
 sequelize.sync() //apply these database models to the database
 
+//COOKIES & SESSIONS 
+var session = require('client-sessions');
+
+app.use(session({ //app.use adds session to the middleware stack.
+  cookieName: 'session',
+  secret: 's123y721hufsdh2342334uhjsfdhjfhu34ru',
+  duration: 30 * 60 * 1000,
+  activeDuration: 30 * 60 * 1000,
+}));
+
+//global middleware function for maintaining sessions between pages.
+//Checks for sessions every request.
+	app.use(function(req, res, next) {
+	if (req.session && req.session.user) { 
+    User.findOne({where: {username: req.session.user.username} }).then(function (user) {
+      if (user) {
+        req.user = user;
+        delete req.user.password; //delete password from user value
+        req.session.user = user; //reset the session with new values of user. 
+        res.locals.user = user; //store in local variable for next route to make use of.
+        next(); //run whatever route is due to take place.
+   		 }
+   		});
+}
+  	else {
+    next(); //same as above. 
+  }
+});
+
+//log-in function
+function requireLogin(req,res,next) {
+	if (!req.user) { //checks if the user is logged in.
+		res.redirect('/login');
+	}
+	else {
+		next();
+	}
+};
+
+
+
 //GET routes 
+
+app.get('/logout', function(req, res) { // Get the login page. 
+	req.session.reset();
+	res.render('login');
+});
 
 app.get('/login', function(req, res) { // Get the login page. 
 	res.render('login');
@@ -67,26 +114,52 @@ app.get('/users/:username',function(req,res) {
 	res.render('')
 });
 
-app.get('/dashboard', function(req,res){
-	res.render('dashboard')
+/*app.get('/dashboard', function(req,res) {
+	if (req.session && req.session.user) { // Check if session exists at all.
+    // find the user by pulling their username from the session.
+    User.findOne({where: {username: req.session.user.username} }).then(function (err, user) {
+      if (!user) {
+        // if the user isn't found in postgres, 
+        //reset the session info.
+        req.session.reset();
+        res.redirect('/login');
+      } 
+    else {
+        res.locals.user = user; // adds user details to response sent to dashboard page for further use.
+        res.render('dashboard'); // the users object is now available within dashboard for manipulation via jade.
+      }
+  });
+}
+  	else {
+    	res.redirect('/login');
+  		}	
+});
+*/
+
+
+app.get('/dashboard', requireLogin, function(req, res) {
+  res.render('dashboard');
 });
 
 
 //POST routes
-
-app.post('/login', function(req, res) { // Send and check the login details against the server.
-User.findOne({ where: {username: req.body.username} }).then(function(user) {
-	if (!user) {
-		res.render('login', {error: "Invalid username or password"});
-	}
-	else {
-		if (user.password === req.body.password){
+app.post('/login', function(req,res) { // Send and check the login details against the server.
+	User.findOne({ where: {username: req.body.username} }).then( function (user) {
+		if (!user) {
+			res.render('login', {error: "Invalid username or password"});
+			console.log("no user")
+		}
+		else {
+			if (user.password === req.body.password){
+			req.session.user = user; //set cookie with user info
+			console.log("here we go")
 			res.redirect('/dashboard')
 		}
-	else{
+		else {
 		res.render('login', {error: "Invalid username or password"});
-	}
+		console.log("something different")
 		}
+}
 	});
 });
 
