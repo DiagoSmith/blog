@@ -1,0 +1,18 @@
+html
+head 
+	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+body
+	h3 Create a new post!
+
+
+form(method ="post", action ="/post")
+	p Title
+	input(type="text",name="title")
+	p 
+	textarea(name="body", cols="40", rows="5",placeholder="type your message here...")
+	p=error
+	input(type="submit")
+
+<ul>
+<li>
+a(href='/dashboard') Go back to dashboard

@@ -1,0 +1,30 @@
+html
+head 
+	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+body
+	each post in posting
+		h3=post.title 
+		h5 by #{post.author}
+		p=post.body
+	
+	each comment in commenting
+		h5 "#{comment.content}"
+		h6 replied... #{comment.user} 
+		
+
+form(method ="post", action ="/comment")
+	textarea(name="body", cols="40", rows="5",placeholder="add your comment here...")
+	input(type="hidden",name="id",value="#{id}")
+	input(type="hidden",name="author", value="#{author}")
+	input(type="submit")
+
+<ul>
+<li>
+a(href='/dashboard') Go back to dashboard
+<li>
+a(href='/users/'+author+'/posts') Look at more posts from this user
+
+ 
+
+	
+

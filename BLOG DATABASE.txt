@@ -80,6 +80,8 @@ This creates an array containing the title and body data values from the data re
 4. Understanding Sessions - 
 Sessions are a way of maintaining a user state after their initial log-in. 
 
+Cookies are made up of a head and a body. To tell a cookie 
+
 
 5. Database Shit - 
 	Primary keys are made up of two constraints - unique & non-null. 
@@ -122,15 +124,20 @@ Pages should be served relationally to each user logged in.
 
 GET
 
+/login - Gets the login page 
+
 /register - Gets the page with the user registration form.
 
- /Posts/(username) - Views the users posts. (the user who is actively logged in);
+ posts/userID - Views the users posts.
 
- /Posts - Views all users posts (the user who is logged in)
+ /Posts - Views all posts.
 
- /posts/username/postname - Views a specific post of a user - not necessarily logged in.
+ /posts/username/postname - 
 
-/logout 
+/logout - redirects back to the login page. 
+
+/users/:username - returns a specific username 
+
 
 
  POST
@@ -138,6 +145,10 @@ GET
  /login - sends the user-log in form and authenticates credentials.
 
  /register - creates a user and submits form.
+
+ /post - creates a new post and submits form. 
+
+ /comment - creates a new comment on a post and submits form. 
 
 
 

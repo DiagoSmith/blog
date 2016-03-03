@@ -1,0 +1,13 @@
+html
+head 
+	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+body
+	h4 The Latest Posts across the site. 
+	each post in postlist
+		ul
+		a(href='/users/'+ locals.user.username + '/posts/'+ post.id) #{post.title } 
+		//when using a variable within a html element, use the hashtag thing.
+		ul
+		p Submitted by: 
+			a(href='/users/'+post.author) #{post.author }
+		
