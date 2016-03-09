@@ -21,6 +21,9 @@ var pg = require('pg')
 var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/blog'; //credentials for the database.
 var sequelize = new Sequelize(connectionString)
 
+//Encryption
+var bcrypt = require('bcrypt');
+
 //Sequelize models 
 var User = sequelize.define('user', { //define the model, in this case represnenting the user table. 
 	id: {
@@ -324,7 +327,8 @@ app.post('/login', function(req, res) { // Send and check the login details agai
 			});
 			console.log("no user")
 		} else {
-			if (user.password === req.body.password) { //otherwise if user exists and the password matches 
+			bcrypt.compare(req.body.password, user.password, function(err, result) { //compares entered password with hash applied, against database password.
+			if (result === true) { //otherwise if user exists and the password matches 
 				req.session.user = user; //set cookie as user object. This contains every row of that specific user. email,password,username.
 				console.log("here we go")
 				res.redirect('/dashboard')
@@ -334,15 +338,19 @@ app.post('/login', function(req, res) { // Send and check the login details agai
 				});
 				console.log("something different went wrong")
 			}
-		}
-	});
+		});
+};
+});
+
 });
 
 app.post('/users', function(req, res) { //Creating a new user.
+	var password = req.body.password //declare new password variable from form data
+	bcrypt.hash(password, 8, function(err, hash) { //magical encryption. This turns the password into a "password+salt gone through hash function" string.
 	User.create({
 		username: req.body.username, //create new user based on form data.
-		password: req.body.password,
-		email: req.body.email
+		password: hash, //use the hash here from previous function. 
+		email: req.body.email 
 	}).then(function() {
 			res.render('login', {
 				success: "The registration was succesful, please log-in!"
@@ -353,10 +361,19 @@ app.post('/users', function(req, res) { //Creating a new user.
 				matching: "It appears someone has already taken this username, please try something else!"
 			});
 			//error is only likely to occur from repeating the same username, display error and return to same page.
-		}
+		
+	});
 
-	);
+	});
 });
+
+
+
+
+
+
+
+
 
 app.post('/post', function(req, res) {
 	Post.create({
