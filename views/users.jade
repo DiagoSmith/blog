@@ -3,17 +3,15 @@ head
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 	link(rel="stylesheet" href="views/main.css" type="text/css")
 body
-	h Users!
-	//iterate through each user in the array. User is placeholder value here, not important, only important thing is defining the correct object passed into jade i.e userlist. 	
+	#usersmain
+		h2 Users!
+		//iterate through each user in the array. User is placeholder value here, not important, only important thing is defining the correct object passed into jade i.e userlist. 	
+	each user in userlist
+			ul.domingo
+			a.dominga(href='/users/'+ user.username) #{user.username} 
+			//when using a variable within a html element, use the hashtag thing. 
+			
+			//important to specify the correct array key here. In this case it's username. 	
 
-each user in userlist
-	ul
-	a(href='/users/'+ user.username) #{user.username} 
-	//when using a variable within a html element, use the hashtag thing. 
-	
-	//important to specify the correct array key here. In this case it's username. 
 
-
-<ul>
-<li>
-a(href='/dashboard') Go back to dashboard
+	a.goback(href='/dashboard') Go back to dashboard

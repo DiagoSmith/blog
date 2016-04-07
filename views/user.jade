@@ -1,20 +1,19 @@
 html
 head 
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-	link(rel="stylesheet" href="views/main.css" type="text/css")
+	link(rel="stylesheet" href="/views/main.css" type="text/css")
 body
-	h Profile of 
-		p=userdata.username
+	h2.bingo Profile of 
+	p.bingo=userdata.username
 
-	h2 Name
+	h2.domingo.bingo Name
 		li=userdata.username
-	h2 Email
+	h2.domingo.bingo Email
 		li=userdata.email        
 		//important to specify the correct array key here. In this case it's username. 
 	
 	
-<ul>
-<li>
-a(href='/users/'+ userdata.username + '/posts') View the posts of #{userdata.username} 
-<li>
-a(href='/dashboard') Go back to dashboard
+
+a.goback(href='/users/'+ userdata.username + '/posts') View the posts of #{userdata.username} 
+br
+a.goback(href='/dashboard') Go back to dashboard

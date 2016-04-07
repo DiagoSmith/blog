@@ -1,3 +1,137 @@
 body {
-	background-color: red;
+	background-color: orange;
 }
+
+$error-color: red ;
+$corect-color: green;
+$font1: arial;
+
+
+@mixin credbox {
+	text-align: center;
+	border: dotted;
+	width: 20%;
+	margin-right: 30%;
+	margin-left: 40%;
+	margin-top: 8%;
+}
+
+#loginmain {
+	text-align: center;
+	font-family: $font1;
+
+}
+
+#loginbox {
+	@include credbox;
+	font-family: $font1;
+	
+	p5 {
+		color: $error-color;
+		background-color: black;
+		border: solid;
+	}
+}
+
+#regmain {
+	text-align: center;
+	font-family: $font1;
+
+}
+
+#regbox {
+	@include credbox;
+	font-family: $font1;
+	
+	p3 {
+		color: $error-color;
+		background-color: white;
+		border: solid;
+		border-color: black;
+	}
+}
+
+#dashwelcome {
+	text-align: center;
+h2 {
+	font-family: $font1;
+	}
+}
+
+#dashnavi {
+	font-family: $font1;
+	text-align: center;
+	ul {
+		li {
+			display: inline;
+			padding: 10px;
+			a {
+				text-decoration: none;
+				background-color: black;
+				color: white;
+				padding: 4px;
+			}
+
+		}
+	}
+
+}
+
+#usersmain {
+	font-family: $font1;
+	text-align: center
+}
+
+
+
+.domingo {
+	
+	border-style: solid;
+	border-color: black;
+	border-width: 2px;		
+
+}
+
+.dominga {
+	font-family: $font1;
+	font-size: 20px;
+	text-decoration: none;
+	color: green;
+	}
+
+.dominga:hover {
+		text-decoration:line-through;
+	}
+
+
+.goback {
+	font-family: $font1;
+	font-size: 20px;
+	margin-left: 44%;
+}
+
+.bingo {
+	font-family: $font1;
+	text-align: center;
+}
+
+.post {
+	width: auto;
+	height: 20%;
+	background-color: white;
+	font-family: $font1;
+	margin-left: 38%;
+	width: 30%
+}
+
+#comment {
+	background-color: gray;
+	margin-left: 38%;
+	width: 30%
+
+
+}
+
+
+
+

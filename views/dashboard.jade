@@ -3,17 +3,20 @@ head
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 	link(rel="stylesheet" href="views/main.css" type="text/css")
 body
-	h Welcome #{locals.user.username} !
-	<ul>
-	<li>
-	a(href='/users') View all the users.
-	<li>
-	a(href='/posts') View all the posts.
-	<li>
-	a(href='/newpost') Create a new post!
-	<li>
-	a(href='/myposts') View my posts.
-	<li>
-	a(href='/logout') Logout
+	#dashwelcome
+		h2 Welcome #{locals.user.username} !
+	
+	#dashnavi
+		ul
+			li
+				a(href='/users') View all the users.
+			li
+				a(href='/posts') View all the posts.
+			li
+				a(href='/newpost') Create a new post!
+			li
+				a(href='/myposts') View my posts.
+			li
+				a(href='/') Logout
 
 

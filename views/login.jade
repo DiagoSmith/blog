@@ -3,15 +3,19 @@ head
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 	link(rel="stylesheet" href="views/main.css" type="text/css")
 body
-form(method ="post", action ="/login")
-	p Username
-	input(type="text",name="username")
-	p Password
-	input(type="password",name="password")
-	p
-	input(type="submit" value="Onwards!")
-p or... 
-	a(href='/register') register
+	#loginmain
+		h2 BLOGITY
+		p Like blogging but better.
 
-p5=error
-p=success
+	#loginbox
+		form(method ="post", action ="/login")
+			p Username
+			input(type="text",name="username")
+			p Password
+			input(type="password",name="password")
+			p
+			input(type="submit" value="Onwards!")
+		p or... 
+			a(href='/register') register
+		p5=error
+		p=success

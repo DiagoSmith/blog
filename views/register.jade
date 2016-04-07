@@ -3,13 +3,18 @@ head
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 	link(rel="stylesheet" href="views/main.css" type="text/css")
 body
-form(method ="post", action ="/users")
-	p Username
-	input(type="text",name="username")
-	p3=matching
-	p Email
-	input(type="text",name="email")
-	p Password
-	input(type="password",name="password")
-	p
-	input(type="submit")
+	#regmain
+		h2 BLOGITY REGISTRATION INITIATION
+		p ONE OF US. ONE OF US. ONE OF US.
+		p Join our sacred covenant. 
+	#regbox
+		form(method ="post", action ="/users")
+			p Username
+			input(type="text",name="username")
+			p3=matching
+			p Email
+			input(type="text",name="email")
+			p Password
+			input(type="password",name="password")
+			p
+			input(type="submit")

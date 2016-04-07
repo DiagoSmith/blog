@@ -2,11 +2,9 @@ html
 head 
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 	link(rel="stylesheet" href="views/main.css" type="text/css")
-body
-	h3 Create a new post!
-
-
-form(method ="post", action ="/post")
+body 
+h3.bingo Create a new post!
+form(method ="post", action ="/post").bingo
 	p Title
 	input(type="text",name="title")
 	p 
@@ -14,6 +12,4 @@ form(method ="post", action ="/post")
 	p=error
 	input(type="submit")
 
-<ul>
-<li>
-a(href='/dashboard') Go back to dashboard
+a.goback(href='/dashboard') Go back to dashboard

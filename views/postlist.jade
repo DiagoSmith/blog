@@ -1,13 +1,13 @@
 html
 head 
 	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-	link(rel="stylesheet" href="views/main.css" type="text/css")
+	link(rel="stylesheet" href="/views/main.css" type="text/css")
 body
-	h4 The Posts of #{author} 
+	h4.bingo The Posts of #{author} 
 
 	each post in postlist
-		ul
-		a(href='/users/'+ post.author + '/posts/'+ post.id) #{post.title } 
+		ul.domingo
+		a.dominga(href='/users/'+ post.author + '/posts/'+ post.id) #{post.title } 
 		//when using a variable within a html element, use the hashtag thing.
 		
 		

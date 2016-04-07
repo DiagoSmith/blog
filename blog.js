@@ -24,6 +24,8 @@ app.use(sassMiddleware({
     prefix:  '/prefix'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
 }));
 
+app.use(express.static( path.join( __dirname)));
+
 app.listen(3000);
 
 //Database
