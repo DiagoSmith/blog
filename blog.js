@@ -145,7 +145,7 @@ app.get('/logout', function(req, res) { // Get the login page after logging out 
 	res.redirect('/login');
 });
 
-app.get('/login', function(req, res) { // Get the login page. 
+app.get('/', function(req, res) { // Get the login page. 
 	res.render('login');
 });
 
