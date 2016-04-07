@@ -5,6 +5,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var promise = require('promise');
 var Sequelize = require('sequelize');
+var sassMiddleware = require('node-sass-middleware');
 
 
 app.set('views', path.join(__dirname, 'views')); //set the views folder where the jade file resides
@@ -13,6 +14,15 @@ app.set('view engine', 'jade'); //sets the jade rendering
 app.use(bodyParser.urlencoded({
 	extended: true
 })); // for parsing form data. 
+
+app.use(sassMiddleware({
+    /* Options */
+    src: path.join(__dirname,'sass'),
+    dest: path.join(__dirname),
+    debug: true,
+    outputStyle: 'compressed',
+    prefix:  '/prefix'  // Where prefix is at <link rel="stylesheets" href="prefix/style.css"/>
+}));
 
 app.listen(3000);
 
