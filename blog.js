@@ -7,6 +7,9 @@ var promise = require('promise');
 var Sequelize = require('sequelize');
 var sassMiddleware = require('node-sass-middleware');
 
+var http = require("http");
+var https = require("https"); //needed for making the api requests. 
+
 
 app.set('views', path.join(__dirname, 'views')); //set the views folder where the jade file resides
 app.set('view engine', 'jade'); //sets the jade rendering
@@ -28,10 +31,13 @@ app.use(express.static( path.join( __dirname)));
 
 app.listen(3000);
 
+
+
 //Database
 var pg = require('pg')
-var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/blog'; //credentials for the database.
+var connectionString = 'postgres://' + 'roberto' + ':' + 'roberto001' + '@localhost/blog'; //credentials for the database.
 var sequelize = new Sequelize(connectionString)
+
 
 //Encryption
 var bcrypt = require('bcrypt');
@@ -57,6 +63,10 @@ var User = sequelize.define('user', { //define the model, in this case represnen
 	email: {
 		type: Sequelize.STRING,
 		unique: true
+	},
+	telephone: {
+		type: Sequelize.INTEGER,
+		allowNull: false
 	}
 })
 
@@ -104,7 +114,7 @@ var Comment = sequelize.define('comment', {
 Post.hasMany(Comment);
 Comment.belongsTo(Post);
 Comment.belongsTo(User);
-sequelize.sync()
+sequelize.sync({force:true});
 
 //apply these database models to the database
 
@@ -362,22 +372,46 @@ app.post('/users', function(req, res) { //Creating a new user.
 	User.create({
 		username: req.body.username, //create new user based on form data.
 		password: hash, //use the hash here from previous function. 
-		email: req.body.email 
+		email: req.body.email,
+		telephone: req.body.telephone 
 	}).then(function() {
-			res.render('login', {
+			User.findOne({ 
+				where: {
+					username: req.body.username
+					}
+				}).then(function(user){
+					var id = user.id
+					//finds the id of the just created user.
+					console.log(id)
+				}).then (function) {
+
+				}	
+				
+
+
+
+
+
+
+
+				}).then(function() {
+				res.render('login', {
 				success: "The registration was succesful, please log-in!"
+				//returns to the log-in page with success message.
 			});
-			//returns to the log-in page with success message.
+			
 		}, function(error) { //upon error do the following:
 			res.render('register', {
 				matching: "It appears someone has already taken this username, please try something else!"
 			});
 			//error is only likely to occur from repeating the same username, display error and return to same page.
 		
-	});
+	})
 
 	});
 });
+});
+
 
 
 
