@@ -65,8 +65,14 @@ var User = sequelize.define('user', { //define the model, in this case represnen
 		unique: true
 	},
 	telephone: {
-		type: Sequelize.INTEGER,
+		type: Sequelize.STRING,
 		allowNull: false
+	},
+	secret: {
+		type: Sequelize.STRING
+	},
+	val: {
+		type: Sequelize.BOOLEAN
 	}
 })
 
@@ -350,11 +356,18 @@ app.post('/login', function(req, res) { // Send and check the login details agai
 			console.log("no user")
 		} else {
 			bcrypt.compare(req.body.password, user.password, function(err, result) { //compares entered password with hash applied, against database password.
-			if (result === true) { //otherwise if user exists and the password matches 
+			if (result === true && user.val === true) { //otherwise if user exists and the password matches 
 				req.session.user = user; //set cookie as user object. This contains every row of that specific user. email,password,username.
 				console.log("here we go")
 				res.redirect('/dashboard')
-			} else {
+			}
+
+			if (result === true && user.val === false) {
+			 	req.session.id = user.username; //stores the username temporarily in the session file. 
+			 	res.render('val');
+			 }
+
+			else {
 				res.render('login', {
 					error: "Invalid username or password"
 				});
@@ -368,37 +381,57 @@ app.post('/login', function(req, res) { // Send and check the login details agai
 
 app.post('/users', function(req, res) { //Creating a new user.
 	var password = req.body.password //declare new password variable from form data
+	var deets = []; // 
+
+
 	bcrypt.hash(password, 8, function(err, hash) { //magical encryption. This turns the password into a "password+salt gone through hash function" string.
 	User.create({
 		username: req.body.username, //create new user based on form data.
-		password: hash, //use the hash here from previous function. 
+		password: hash, //use the hash here from previous function to make the password hardcore. 
 		email: req.body.email,
-		telephone: req.body.telephone 
-	}).then(function() {
+		telephone: req.body.telephone,
+		secret: "none",
+		val: false
+
+
+	}).then(function() { 
 			User.findOne({ 
 				where: {
 					username: req.body.username
-					}
-				}).then(function(user){
-					var id = user.id
-					//finds the id of the just created user.
-					console.log(id)
-				}).then (function) {
-
-				}	
-				
+					} //look up said user we just made.
 
 
+					}).then(function(user){
+						var telephone = user.telephone;
+						console.log("userphone="+ user.telephone) //take out telephone value for later use
+						var deets = [user.telephone,user.username];
 
+						https.get('https://api02.highside.net/start/SJkKzuTE?number='+ deets[0], (res) => {
+  							console.log('statusCode: ', res.statusCode); //let's see if our get request worked
+  							console.log('headers: ', res.headers); //more request info.
 
+  							res.setEncoding('utf8'); //we don't want horrible binary buffer, so set this to something readable.
 
+  						res.on('data', (d) => { //this is the data/our code. 
+    						console.log(d); //print it out to take a look. 
+    						var geheim = d; // lets call it something else. 
 
+								User.update({secret: geheim} //update the db with our 2fa code. 
+								,{where: {username: deets[1]}}
+								)});
+  								
+
+						}).on('error', (e) => {
+  							console.error(e);
+  							//if there is an error with our request print it out.
+						
+						});
 
 				}).then(function() {
+
 				res.render('login', {
 				success: "The registration was succesful, please log-in!"
-				//returns to the log-in page with success message.
-			});
+				}); //returns to the log-in page with success message.
 			
 		}, function(error) { //upon error do the following:
 			res.render('register', {
@@ -413,8 +446,24 @@ app.post('/users', function(req, res) { //Creating a new user.
 });
 
 
-
-
+app.post('/val', function(req, res) {
+	User.findOne({
+		username: req.session.id //find the user.
+	}).then(function(user) {
+			if (req.body.code == user.secret) {
+				User.update({val: true},
+					{where: {username:user.username}})
+				req.session.user = user;
+				res.redirect('/dashboard')
+			}
+			else  { //upon error do the following:
+			res.render('login', {
+				error: "Seems like you entered your code incorrectly, log in and try again."
+			});
+			//error is only likely to occur from repeating the same username, display error and return to same page.
+		};
+	});
+});
 
 
 
