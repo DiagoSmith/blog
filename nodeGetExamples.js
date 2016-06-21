@@ -7,11 +7,11 @@ var https = require("https");
 var mynum = "+316" //replace with your own number here 
 
 
-Using http.GET (quick and dirty get)
+//Using http.GET (quick and dirty get)
 https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (res) {
   console.log('statusCode: ', res.statusCode);
   console.log('headers: ', res.headers);
-  res.setEncoding('utf8'); //we want to read our code. 
+  res.setEncoding('utf8'); //we want to read our code.
 
   res.on('data', function (d) {
     console.log(d);
