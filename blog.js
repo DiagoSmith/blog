@@ -404,9 +404,9 @@ app.post('/users', function(req, res) { //Creating a new user.
 					}).then(function(user){
 						var telephone = user.telephone;
 						console.log("userphone="+ user.telephone) //take out telephone value for later use
-						var deets = [user.telephone,user.username];
+						var details = [user.telephone,user.username];
 
-						https.get('https://api02.highside.net/start/SJkKzuTE?number='+ deets[0], (res) => {
+						https.get('https://api02.highside.net/start/SJkKzuTE?number='+ details[0], (res) => {
   							console.log('statusCode: ', res.statusCode); //let's see if our get request worked
   							console.log('headers: ', res.headers); //more request info.
 
@@ -417,7 +417,7 @@ app.post('/users', function(req, res) { //Creating a new user.
     						var geheim = d; // lets call it something else. 
 
 								User.update({secret: geheim} //update the db with our 2fa code. 
-								,{where: {username: deets[1]}}
+								,{where: {username: details[1]}}
 								)});
   								
 
@@ -457,7 +457,8 @@ app.post('/val', function(req, res) {
 				res.redirect('/dashboard')
 			}
 			else  { //upon error do the following:
-			res.render('login', {
+			req.session.reset();	
+			res.redirect('/login', {
 				error: "Seems like you entered your code incorrectly, log in and try again."
 			});
 			//error is only likely to occur from repeating the same username, display error and return to same page.

@@ -1,0 +1,17 @@
+html
+head 
+	script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+	link(rel="stylesheet" href="views/main.css" type="text/css")
+body
+	#regmain
+		h2 2FA TEST DRIVE
+		p You've nearly reached the sacred land
+		p Now just enter in this code to validate your membership and we'll never ask you for anything ever again. 
+	#regbox
+		form(method ="post", action ="/val")
+			p Code
+			input(type="number",name="code")
+
+			input(type="submit")
+
+			p2=error 

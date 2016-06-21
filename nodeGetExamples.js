@@ -8,7 +8,7 @@ var mynum = "+316" //replace with your own number here
 
 
 //Using http.GET (quick and dirty get)
-https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (res) {
+/*https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (res) {
   console.log('statusCode: ', res.statusCode);
   console.log('headers: ', res.headers);
   res.setEncoding('utf8');
@@ -22,17 +22,18 @@ https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (
 });
 
 
-
+*/
 
 
 
 
 //Using https.request 
 var options = {
-  hostname: 'api01.highside.net',
+  hostname: 'api02.highside.net',
   port: 443, //standard port for secure web browser communication
   path: '/start/SJkKzuTE?number='+mynum, //swap this for your own URL path
-  method: 'GET'
+  method: 'GET',
+  auth: 'user:password' //BASIC Authentication for (even more) security. 
 };
 
 var request = https.request(options, function (response) {
