@@ -1,4 +1,7 @@
 # Implementing 2SA into the Blog application
+
+    Take a look at the "nodeGetExamples.js" file in NYCDA for guidance if you're really not sure where to start. 
+
 What we need to do: 
 
 1, Add database fields for our additional values: "secret_code", "validated".

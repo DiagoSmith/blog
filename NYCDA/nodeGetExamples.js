@@ -24,8 +24,6 @@ https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (
 
 
 
-
-
 //Using https.request 
 var options = {
   hostname: 'api02.highside.net',
