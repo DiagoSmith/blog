@@ -1,0 +1,66 @@
+{
+    "name": "NYCDA 2FA BLOG TEMPLATE",
+    "trigger_type": "httpGet",
+    "trigger": {
+        "authType": "none",
+        "httpGetVars": "number",
+        "httpPassword": "test",
+        "https": true,
+        "output": [
+            "triggerUrlAttr_1_number"
+        ]
+    },
+    "steps": [
+        {
+            "id": "ByfGEdTV",
+            "length": "4",
+            "output": [
+                "generatePIN_1_pin"
+            ],
+            "type": "generatePIN"
+        },
+        {
+            "id": "SycC7d6V",
+            "output": [],
+            "response": "${generatePIN_1_pin}",
+            "response_type": "text",
+            "type": "replyToHttpTrigger"
+        },
+        {
+            "called": "${triggerUrlAttr_1_number}",
+            "caller": "$+31645360261",
+            "forward": false,
+            "forward_called": "$",
+            "forward_timeout": 20,
+            "id": "H1rpfu6V",
+            "maxDuration": "30",
+            "output": [
+                "makeCall_1_call"
+            ],
+            "type": "makeCall"
+        },
+        {
+            "call": "makeCall_1_call",
+            "gender": "female",
+            "id": "r1ry7dpE",
+            "language": "en-AU",
+            "output": [],
+            "text": "$Hello there,,,, thanks for registering with BLOG ITY,,, your authorization code is {generatePIN_1_pin},,,,,, Happy blogging! Your code again is {generatePIN_1_pin} ",
+            "type": "playTTS"
+        },
+        {
+            "continue": true,
+            "from": "$KingRo",
+            "id": "BJhTxErS",
+            "output": [
+                "sendSMS_1_status"
+            ],
+            "text": "$Your code is  {generatePIN_1_pin} in case you somehow forgot!!",
+            "to": "${triggerUrlAttr_1_number}",
+            "type": "sendSMS"
+        }
+    ],
+    "http_cache_minutes": 30,
+    "ts_create": "2016-06-21T15:03:10.720Z",
+    "ts_update": "2016-06-21T15:05:06.356Z"
+}
