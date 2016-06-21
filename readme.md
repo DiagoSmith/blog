@@ -1,30 +1,30 @@
-IMPLEMENTING THE 2SA INTO THE BLOG APPLICATION
+# Implementing 2SA into the Blog application
 
 
 
-WHAT WE NEED TO DO: 
-1. ADD DATABASE FIELDS FOR OUR ADDITIONAL VALUES: "secret_code", "validated".
+What we need to do: 
+1. Add database fields for our additional values: "secret_code", "validated".
 
-2. SET DEFAULT VALUES FOR THE ADDTIONAL FIELDS WHENEVER A NEW USER REGISTERS AND GETS ADDED TO THE DATABASE. "Validated" should be "false".
+2. Set default values for the additional fields whenever a new user registers and gets added to the database. "validated" should be "false".
 
-3. UPON LOGIN, WE NEED TO DO THE FOLLOWING:
-	a, MAKE THE HTTPS REQUEST TO THE HIGHSIDE API. (with)
-	b, WRITE THE HTTPS RESPONSE VALUE CONTAINING THE SECRET CODE into "secret_code" in the DB. 
-	b2, BONUS POINT: ADD BCRYPT TO MAKE THE SECRET CODE EVEN MORE SECRET.
-	c, RENDER A NEW PAGE OR FORM WHERE THE USER CAN ENTER THE SECRET CODE.
-	d, add a way to check if the user is validated, prevent log-in forever if not validated. 
+3. Upon login, we need to do the following:
+-	a, Make the https request to the Highside API. (with)
+-	b, Write the https response value containing the secret code into "secret_code" in the db. 
+-	b2, Bonus point: add bcrypt to make the secret code even more secret.
+-	c, Render a new page or form where the user can enter the secret code.
+-	d, Add a way to check if the user is validated, prevent log-in forever if not validated. 
 
-4, UPON SECRET CODE SUBMISSION:
-	a, CHECK CODE AGAINST "secret_code" IN DATABASE 
-	b, CHANGE VALIDATED STATUS IF CODE IS RIGHT
-	c, DO SOMETHING ELSE IF IT'S WRONG (e.g a horrible message berating their forgetfulness)
-	c2, BONUS POINT: IF IT'S WRONG HAVE FUNCTIONALITY TO SEND ANOTHER CODE (remember to change the current secret_code).
-	d, SET THE SESSION/OTHER DETAILS AS WE WOULD AFTER A NORMAL LOGIN.
-	e, REDIRECT THE PAGE TO HOME/DASHBOARD/WHATEVER YOUR LANDING PAGE IS. 
+4, Upon secret code submission:
+-	a, Check code against "secret_code" in database 
+-	b, Change validated status if code is right
+-	c, Do something else if it's wrong (e.g. a horrible message berating their forgetfulness)
+-	c2, Bonus point: if it's wrong have functionality to send another code (remember to change the current “secret_code” in the database).
+-	d, Set the session/other details as we would after a normal login.
+-	e, Redirect the page to home/dashboard/whatever your landing page is. 
 
 
-WHAT THE HIGHSIDE API DOES:
-1, UPON RECEIVING THE HTTPS GET REQUEST: 
-	a, GENERATE CODE
-	b, SEND CODE VIA SMS/PHONE CALL TO RECIPIENT IN GET REQUEST ATTRIBUTE
-	c, RETURN THE HTTPS RESPONSE WITH CODE AND OTHER VARIABLES. 
+What the Highside API does:
+1, Upon receiving the https get request: 
+-	a, generate code
+-	b, send code via sms/phone call to recipient found in the our get request attribute
+-	c, return the https response with code and other variables back to our application.
