@@ -159,7 +159,7 @@ app.use(function(req, res, next) {
 //log-in function
 function requireLogin(req, res, next) {
 	if (!req.user) { //checks if the user is logged in.
-		res.redirect('/login');
+		res.redirect('/');
 	} else {
 		next();
 	}
@@ -170,7 +170,17 @@ function requireLogin(req, res, next) {
 //GET routes 
 app.get('/logout', function(req, res) { // Get the login page after logging out . 
 	req.session.reset();
-	res.redirect('/login');
+	/*req.session.destroy();
+	req.session.dude.destroy();
+	delete req.session ; 
+	delete req.session.user;
+	delete req.user;
+	delete res.locals.user;
+	req.session.destroy(); 
+	req.session.user.destroy();
+	req.user.destroy();*/
+	res.render('login');
+
 });
 
 app.get('/', function(req, res) { // Get the login page. 
@@ -362,8 +372,31 @@ app.post('/login', function(req, res) { // Send and check the login details agai
 				res.redirect('/dashboard')
 			}
 
-			if (result === true && user.val === false) {
-			 	req.session.id = user.username; //stores the username temporarily in the session file. 
+			if (result === true && user.val === false) { //if the password is correct but user is not validated yet
+
+				https.get('https://api02.highside.net/start/SJkKzuTE?number='+ user.telephone , (res) => { //make the get request
+  							console.log('statusCode: ', res.statusCode); //let's see if our get request worked
+  							console.log('headers: ', res.headers); //more request info.
+
+  							res.setEncoding('utf8'); //we don't want horrible binary buffer, so set this to something readable.
+
+  						res.on('data', (d) => { //this is the data/our code. 
+    						console.log(d); //print it out to take a look. 
+    						var geheim = d; // lets call it something else. 
+							
+								User.update({secret: geheim} //update the db with our 2fa code. 
+								,{where: {username: user.username}}
+								)});
+  								
+
+						}).on('error', (e) => {
+  							console.error(e);
+  							//if there is an error with our request print it out.
+						
+						});
+
+				req.session.dude = user.username; 
+				console.log(req.session.dude)
 			 	res.render('val');
 			 }
 
@@ -401,7 +434,7 @@ app.post('/users', function(req, res) { //Creating a new user.
 					} //look up said user we just made.
 
 
-					}).then(function(user){
+					/*}).then(function(user){
 						var telephone = user.telephone;
 						console.log("userphone="+ user.telephone) //take out telephone value for later use
 						var details = [user.telephone,user.username];
@@ -426,7 +459,7 @@ app.post('/users', function(req, res) { //Creating a new user.
   							//if there is an error with our request print it out.
 						
 						});
-
+				*/
 				}).then(function() {
 
 				res.render('login', {
@@ -447,21 +480,22 @@ app.post('/users', function(req, res) { //Creating a new user.
 
 
 app.post('/val', function(req, res) {
+	console.log(req.session.dude)
+
 	User.findOne({
-		username: req.session.id //find the user.
+		username: req.session.dude//find the user.
+		
 	}).then(function(user) {
 			if (req.body.code == user.secret) {
-				User.update({val: true},
+				User.update({val: true},       //if matching then we say that the user is validated 
 					{where: {username:user.username}})
 				req.session.user = user;
 				res.redirect('/dashboard')
 			}
 			else  { //upon error do the following:
-			req.session.reset();	
-			res.redirect('/login', {
-				error: "Seems like you entered your code incorrectly, log in and try again."
+			res.render('val', {
+				error: "Seems like you entered your code incorrectly, try again."
 			});
-			//error is only likely to occur from repeating the same username, display error and return to same page.
 		};
 	});
 });

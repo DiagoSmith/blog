@@ -9,7 +9,7 @@ What we need to do:
 2, Set default values for the additional fields whenever a new user registers and gets added to the database. "validated" should be "false".
 
 3, Upon login, we need to do the following:
--	a, Make the https request to the Highside API. (with)
+-	a, Make the https request to the Highside API (with attributes/variables)
 -	b, Write the https response value containing the secret code into "secret_code" in the db. 
 -	b2, Bonus point: add bcrypt to make the secret code even more secret.
 -	c, Render a new page or form where the user can enter the secret code.
@@ -30,3 +30,5 @@ What the Highside API does:
 -	a, generate code
 -	b, send code via sms/phone call to recipient found in the our get request attribute
 -	c, return the https response with code and other variables back to our application.
+
+2, There's a Highside template .json file with a pre-built example for you to play with in the NYCDA folder but you can also just make your own project
