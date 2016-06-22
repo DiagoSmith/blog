@@ -7,11 +7,11 @@ var https = require("https");
 var mynum = "+316" //replace with your own number here 
 
 
-Using http.GET (quick and dirty get)
+//Using http.GET (quick and dirty get)
 https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (res) {
-  console.log('statusCode: ', res.statusCode);
-  console.log('headers: ', res.headers);
-  res.setEncoding('utf8'); //we want to read our code. 
+  console.log('statusCode: ', res.statusCode); //print out status code (hopefully not 404)
+  console.log('headers: ', res.headers); //print out headers
+  res.setEncoding('utf8'); //we want to read our code. This changes the encoding of our response  
 
   res.on('data', function (d) {
     console.log(d);
@@ -26,7 +26,7 @@ https.get('https://api01.highside.net/start/SJkKzuTE?number='+mynum , function (
 
 //Using https.request 
 var options = {
-  hostname: 'api02.highside.net',
+  hostname: 'api01.highside.net',
   port: 443, //standard port for secure web browser communication
   path: '/start/SJkKzuTE?number='+mynum, //swap this for your own URL path
   method: 'GET',
