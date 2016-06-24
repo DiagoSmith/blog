@@ -35,7 +35,7 @@ app.listen(3000);
 
 //Database
 var pg = require('pg')
-var connectionString = 'postgres://' + 'roberto' + ':' + 'roberto001' + '@localhost/blog'; //credentials for the database.
+var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/blog'; //credentials for the database.
 var sequelize = new Sequelize(connectionString)
 
 
